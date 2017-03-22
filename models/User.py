@@ -1,5 +1,6 @@
 from esify import db
-from models import user_playlists
+
+
 
 class User(db.Model):
     __tablename__ = 'Users'
@@ -8,7 +9,7 @@ class User(db.Model):
     password = db.Column(db.String(120), nullable=False)
     username = db.Column(db.String(120), unique=True)
     session_token = db.Column(db.String(256), unique=True)
-    playlist = db.relationship('Playlist', secondary=playlist, backref=db.backref('Playlist', lazy='dynamic'))
+    playlists = db.relationship('Playlist',backref='user',lazy="dynamic")
 
     def __init__(self, email, password, username):
         self.email = email
@@ -16,3 +17,6 @@ class User(db.Model):
         self.username = username
         from utils import generate_token
         self.session_token = unicode(generate_token())
+
+    def __repr__(self):
+        return '<username %r, >' % self.username
