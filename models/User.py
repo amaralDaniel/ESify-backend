@@ -1,7 +1,5 @@
 from esify import db
 
-
-
 class User(db.Model):
     __tablename__ = 'Users'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -15,8 +13,8 @@ class User(db.Model):
         self.email = email
         self.password = password
         self.username = username
-        from utils import generate_token
-        self.session_token = unicode(generate_token())
+        import uuid
+        self.session_token = uuid.uuid4().hex
 
     def __repr__(self):
         return '<username %r, >' % self.username
