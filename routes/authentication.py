@@ -15,21 +15,29 @@ def index():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        return 'logging you in'
+        email = request.form['email']
+        password = request.form['password']
+        username = request.form['username']
+        from beans import AuthBean
+        bean = AuthBean()
+        if bean.login( email , password):
+            return 'LOGGED'
+        else:
+            return 'NOT'
     else:
         return '''
             <form method="post">
-                <p><input type=text name=username>
+                <p><input type=text name=email>
+                <p><input type=text name=password>
                 <p><input type=submit value=Login>
             </form>
         '''
 
 @app.route('/register', methods=['POST'])
 def register():
-    data = json.loads(request.data)
-    email = data['email']
-    password = data['password']
-    username = data['username']
+    email = request.form['email']
+    password = request.form['password']
+    username = request.form['username']
     from beans import AuthBean
     bean = AuthBean()
     if bean.register( email , password, username):
