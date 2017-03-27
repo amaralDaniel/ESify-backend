@@ -8,9 +8,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    if 'username' in session:
-        return 'Logged in as %s' % escape(session['username'])
-    return 'You are not logged in'
+    def index(): pass
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -28,7 +26,7 @@ def login():
         return '''
             <form method="post">
                 <p><input type=text name=email>
-                <p><input type=text name=password>
+                <p><input type=password name=password>
                 <p><input type=submit value=Login>
             </form>
         '''

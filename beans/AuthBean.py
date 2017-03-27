@@ -28,13 +28,8 @@ class AuthBean(object):
         try:
             print pwd
             pwd = sha512(pwd).hexdigest()
-            print pwd
             u = User.query.filter_by(email=email,password=pwd).first()
-            # print u.username
-            print u.password
-            # print u.email
             if u is None:
-                print "false"
                 return False
 
             u.session_token = uuid.uuid4().hex
