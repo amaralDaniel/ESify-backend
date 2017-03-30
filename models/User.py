@@ -13,7 +13,6 @@ class User(db.Model):
     def __init__(self, email, password, username):
         self.email = email
         self.password = password
-        # self.password = password
         self.username = username
         import uuid
         self.session_token = uuid.uuid4().hex
