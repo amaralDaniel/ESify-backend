@@ -4,6 +4,17 @@ class AuthBean(object):
     def __init__(self):
         pass
 
+    def verify_token(self, token):
+        from models import User
+        try:
+            user = User.query.filter_by(session_token=token).first()
+            if user is None:
+                return False
+            else:
+                return True
+        except Exception as e:
+            return False
+
     def register(self, email, password, username):
         from models import *
         from esify import db
