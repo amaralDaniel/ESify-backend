@@ -1,0 +1,104 @@
+# Example YAML to get you started quickly.
+# Be aware that YAML has indentation based scoping.
+# Code completion support is available so start typing for available options.
+swagger: '2.0'
+
+# This is your document metadata
+info:
+  version: "0.1"
+  title: Esify-backend
+
+# Describe your paths here
+paths:
+  # This is a path endpoint. Change it.
+  /login:
+    # This is a HTTP operation
+    post:
+      # Describe this verb here. Note: you can use markdown
+      description: |
+       Logins based on provided email and password
+      # This is array of GET operation parameters:
+      parameters:
+        # An example parameter that is in query and is required
+        -
+          name: email
+          in: formData
+          description: User email
+          required: true
+          type: string 
+        -
+          name: password
+          in: formData
+          description: User password
+          required: true
+          type: string
+          format: password
+          
+      # Expected responses for this operation:
+      responses:
+        # Response code
+        200:
+          description: successful login
+          # A schema describing your response object.
+          # Use JSON Schema format
+          schema:
+            type: string
+        400:
+          description: login failed caused by invalid email/password 
+  /register:
+    # This is a HTTP operation
+    post:
+      # Describe this verb here. Note: you can use markdown
+      description: |
+       Registers user with username, password and email
+      # This is array of GET operation parameters:
+      parameters:
+        # An example parameter that is in query and is required
+        -
+          name: email
+          in: formData
+          description: User email
+          required: true
+          type: string 
+        -
+          name: password
+          in: formData
+          description: User password
+          required: true
+          type: string
+          format: password 
+        -
+          name: username
+          in: formData
+          description: User username
+          required: true
+          type: string
+          
+      # Expected responses for this operation:
+      responses:
+        # Response code
+        200:
+          description: successful register
+          # A schema describing your response object.
+          # Use JSON Schema format
+          schema:
+            type: string
+        400:
+          description: register failed caused by invalid email/password/username
+          schema:
+            type: string
+  /logout:
+    get:
+      description:
+        Logs out a user 
+        
+      responses:
+        200: 
+          description: logout successful 
+          schema:
+            type: string
+            
+        
+          
+      
+  
