@@ -3,8 +3,8 @@ import os
 from markupsafe import Markup
 import json
 
-from flask import Flask, session, redirect, url_for, escape, request
-app = Flask(__name__)
+from flask import redirect, url_for, escape, request
+from esify import app, session
 
 @app.route('/account', methods=['POST'])
 def user_account():
