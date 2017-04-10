@@ -37,6 +37,6 @@ def delete_account():
     from beans import AccountBean
     bean = AccountBean(session["X-Auth-Token"])
     if bean.delete_account():
-        return refirect(url_for('logout'))
+        return redirect(url_for('logout'))
     else:
         return "SOMETHING WENT WRONG"
