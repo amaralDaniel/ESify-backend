@@ -1,4 +1,6 @@
-from esify import db
+from datetime import datetime
+from database import db
+
 from passlib.hash import bcrypt
 
 class User(db.Model):
