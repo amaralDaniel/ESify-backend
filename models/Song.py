@@ -1,4 +1,4 @@
-from esify import db
+from models import db
 
 
 class Song(db.Model):

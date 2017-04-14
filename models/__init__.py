@@ -4,7 +4,9 @@ db = SQLAlchemy()
 
 
 def reset_database():
-    from models import User, Song, Playlist
+    from User import *
+    from Song import *
+    from Playlist import *
 
     db.drop_all()
     db.create_all()

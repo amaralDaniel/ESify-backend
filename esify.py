@@ -1,8 +1,8 @@
 from flask import Flask, Blueprint
 from flask_sqlalchemy import SQLAlchemy
 import settings
-# from rest_api_demo.api.blog.endpoints.posts import ns as blog_posts_namespace
-# from rest_api_demo.api.blog.endpoints.categories import ns as blog_categories_namespace
+from api.routes.authentication import ns as authentication_ns
+from api.routes.posts import ns as post_ns
 from api.restplus import api
 from models import db
 
@@ -29,8 +29,8 @@ def initialize_app(flask_app):
 
     blueprint = Blueprint('api', __name__, url_prefix='/api')
     api.init_app(blueprint)
-    # api.add_namespace(blog_posts_namespace)
-    # api.add_namespace(blog_categories_namespace)
+    api.add_namespace(authentication_ns)
+    api.add_namespace(post_ns)
     flask_app.register_blueprint(blueprint)
 
     db.init_app(flask_app)

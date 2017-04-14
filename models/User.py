@@ -1,5 +1,5 @@
 from datetime import datetime
-from database import db
+from models import db
 
 from passlib.hash import bcrypt
 
