@@ -11,33 +11,36 @@ from models import User
 
 log = logging.getLogger(__name__)
 
-ns = api.namespace('api/authentication', description='Operations related to authentication')
+ns = api.namespace('authentication', description='Operations related to authentication')
 
 
 
-@ns.route('/')
-class Authentication(Resource):
-    def get():
-        print "jelly-hoe"
-        pass
+@ns.route('/register')
+class Register(Resource):
 
-# @ns.route('/register', methods=['POST'])
-# class Register(Resource):
-#
-#
-#     def get(self):
-#         """
-#         Enables users to register in the platform.
-#         """
-#         return None, 200
-#     # email = request.form['email']
-#     # password = request.form['password']
-#     # username = request.form['username']
-#     # from beans import AuthBean
-#     # bean = AuthBean()
-#     # if bean.register( email , password, username):
-#     #     return 'REGISTERED'
-#     # return 'NOT REGISTERED'
+    @api.response(200, 'Testing')
+    def get(self):
+        """
+        Get just for testing.
+        """
+
+    @api.response(200, 'User registered')
+    def post(self):
+        """
+        Enables users to register in the platform.
+        """
+
+        email = request.form['email']
+        password = request.form['password']
+        username = request.form['username']
+        from beans import AuthBean
+        bean = AuthBean()
+        if bean.register( email , password, username):
+            return None, 200
+
+
+
+
 
 
 
