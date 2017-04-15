@@ -1,5 +1,5 @@
-from esify import db
-
+from models import db
+from models.Song import Song
 playlist_songs = db.Table('playlist_songs',db.Column('song_id',db.Integer,db.ForeignKey('Songs.id')),db.Column('playlist_id',db.Integer,db.ForeignKey('Playlists.id')))
 
 class Playlist(db.Model):

@@ -1,5 +1,6 @@
 from datetime import datetime
 from models import db
+from models.Playlist import Playlist
 
 from passlib.hash import bcrypt
 
@@ -16,8 +17,8 @@ class User(db.Model):
         self.email = email
         self.password = password
         self.username = username
-        import uuid
-        self.session_token = uuid.uuid4().hex
+        # import uuid
+        # self.session_token = uuid.uuid4().hex
 
     # def verify_password(self, password):
     #     pwhash = bcrypt.hashpw(password, self.password)
