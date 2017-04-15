@@ -5,9 +5,9 @@ import logging
 
 from flask import redirect, url_for, escape, request
 from flask_restplus import Resource
-from api.beans import AuthBean, UserPlaylistBean, AccountBean
+from api.beans.AuthBean import register, login
 from api.restplus import api
-from models import User
+
 
 log = logging.getLogger(__name__)
 
@@ -18,33 +18,23 @@ ns = api.namespace('authentication', description='Operations related to authenti
 @ns.route('/register')
 class Register(Resource):
 
-    @api.response(200, 'Testing')
+    @api.response(200, 'Test')
     def get(self):
         """
         Get just for testing.
         """
 
     @api.response(200, 'User registered')
+    # TODO: serializers
     def post(self):
         """
         Enables users to register in the platform.
         """
+        data = request.json
 
-        email = request.form['email']
-        password = request.form['password']
-        username = request.form['username']
-        from beans import AuthBean
-        bean = AuthBean()
-        if bean.register( email , password, username):
-            return None, 200
+        register(data)
+        return None, 200
 
-
-
-
-
-
-
-#
 # @ns.route('/login', methods=['GET', 'POST'])
 # def login():
 #     if request.method == 'POST':
