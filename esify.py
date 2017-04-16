@@ -1,5 +1,6 @@
 from flask import Flask, Blueprint
 from flask_sqlalchemy import SQLAlchemy
+from flask import session
 import settings
 from api.routes.authentication import ns as authentication_ns
 from api.routes.posts import ns as post_ns
