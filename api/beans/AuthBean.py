@@ -1,12 +1,15 @@
 
 from passlib.hash import bcrypt
 from models import db
+from models.User import User
+
+from flask import redirect, url_for, escape, request
 
 def __init__(self):
     pass
 
 def verify_token(self, token):
-    from models import User
+
     try:
         user = User.query.filter_by(session_token=token).first()
         if user is None:
@@ -19,7 +22,6 @@ def verify_token(self, token):
 
 def register(data):
     from hashlib import sha512
-    from models.User import User
 
     username = data.get('username')
     email = data.get('email')
@@ -35,15 +37,17 @@ def register(data):
         return False
 
 
-def login(self, email, pwd):
-    from models import User
-    from esify import db, session
+def login(data):
     import uuid
     from hashlib import sha512
+    from esify import session
 
     try:
-        print pwd
-        pwd = sha512(pwd).hexdigest()
+
+        email = data.get('email')
+        password = data.get('password')
+
+        pwd = sha512(password).hexdigest()
         u = User.query.filter_by(email=email,password=pwd).first()
         if u is None:
             return False
@@ -51,10 +55,21 @@ def login(self, email, pwd):
         u.session_token = uuid.uuid4().hex
         db.session.commit()
 
-        session["email"] = u.email
+        session['logged_in'] = True
         session["X-Auth-Token"] = u.session_token
 
         return True
+    except Exception as e:
+        print e
+        return False
+
+def logout():
+    from esify import session
+    from flask import flash
+    try:
+        session.pop('logged_in', None)
+        flash('You were logged out')
+        return None
     except Exception as e:
         print e
         return False
