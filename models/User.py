@@ -1,12 +1,12 @@
 from datetime import datetime
 from models import db
 from models.Playlist import Playlist
-
+import uuid
 from passlib.hash import bcrypt
 
 class User(db.Model):
     __tablename__ = 'Users'
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id = db.Column(db.String(300), primary_key=True, unique=True)
     email = db.Column(db.String(120), unique=True)
     password = db.Column(db.String(300), nullable=False)
     username = db.Column(db.String(120), unique=True)
@@ -14,11 +14,12 @@ class User(db.Model):
     playlists = db.relationship('Playlist',backref='user',lazy="dynamic")
 
     def __init__(self, email, password, username):
+        self.id = uuid.uuid4().hex
         self.email = email
         self.password = password
         self.username = username
-        # import uuid
-        # self.session_token = uuid.uuid4().hex
+
+
 
     # def verify_password(self, password):
     #     pwhash = bcrypt.hashpw(password, self.password)

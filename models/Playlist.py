@@ -7,7 +7,7 @@ class Playlist(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String(120))
     description = db.Column(db.String(1000))
-    owner = db.Column(db.Integer, db.ForeignKey('Users.id'))
+    owner = db.Column(db.String(300), db.ForeignKey('Users.id'))
     playlist_songs = db.relationship('Song', secondary=playlist_songs,backref=db.backref('Playlists', lazy='dynamic'))
 
     def __init__(self, title, description,  owner, songs):
