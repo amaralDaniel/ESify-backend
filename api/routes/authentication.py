@@ -1,10 +1,8 @@
-import os
-from markupsafe import Markup
-import json
 import logging
 
 from flask import request
 from flask_restplus import Resource
+
 from api.beans.AuthBean import register, login, logout
 from api.restplus import api
 
