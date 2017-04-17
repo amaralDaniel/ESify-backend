@@ -4,6 +4,7 @@ from flask import session
 import settings
 from api.routes.authentication import ns as authentication_ns
 from api.routes.account import ns as account_ns
+from api.routes.playlist import ns as playlist_ns
 
 from api.restplus import api
 from models import db
@@ -33,9 +34,12 @@ def initialize_app(flask_app):
     api.init_app(blueprint)
     api.add_namespace(authentication_ns)
     api.add_namespace(account_ns)
+    api.add_namespace(playlist_ns)
     flask_app.register_blueprint(blueprint)
 
     db.init_app(flask_app)
+    with flask_app.app_context():
+        db.create_all()
 
 def main():
     initialize_app(app)
