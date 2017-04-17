@@ -1,15 +1,15 @@
-
 from passlib.hash import bcrypt
 from models import db
 from models.User import User
 
 from flask import redirect, url_for, escape, request
 
+
 def __init__(self):
     pass
 
-def verify_token(self, token):
 
+def verify_token(token):
     try:
         user = User.query.filter_by(session_token=token).first()
         if user is None:
@@ -28,7 +28,7 @@ def register(data):
     password = data.get('password')
 
     try:
-        user = User(email,  sha512(password).hexdigest(), username)
+        user = User(email, sha512(password).hexdigest(), username)
         db.session.add(user)
         db.session.commit()
         return True
@@ -48,7 +48,7 @@ def login(data):
         password = data.get('password')
 
         pwd = sha512(password).hexdigest()
-        u = User.query.filter_by(email=email,password=pwd).first()
+        u = User.query.filter_by(email=email, password=pwd).first()
         if u is None:
             return False
 
@@ -63,12 +63,13 @@ def login(data):
         print e
         return False
 
+
 def logout():
     from esify import session
-    from flask import flash
+
     try:
         session.pop('logged_in', None)
-        flash('You were logged out')
+
         return None
     except Exception as e:
         print e
