@@ -9,11 +9,11 @@ def __init__(self, token):
     self.user = self.get_user(token)
 
 def get_user(token):
-    user = User.query.filter_by(session_token=token).first()
+    user = User.query.filter_by(session_token=token).first_or_404()
     return user
 
 def get_account(token):
-    user = User.query.filter_by(session_token=token).first()
+    user = User.query.filter_by(session_token=token).first_or_404()
 
     data = {}
     data['email'] = user.email
@@ -26,7 +26,7 @@ def get_account(token):
 def update_account(token, data):
 
     try:
-        user = User.query.filter(User.session_token == token).one()
+        user = User.query.filter(User.session_token == token).first_or_404()
         user.username = data.get('username')
         user.email = data.get('email')
         user.password = data.get('password')
@@ -39,7 +39,7 @@ def update_account(token, data):
 
 def delete_account(token):
     try:
-        user = User.query.filter(User.session_token == token).one()
+        user = User.query.filter(User.session_token == token).first_or_404()
         db.session.delete(user)
         db.session.commit()
         return True
