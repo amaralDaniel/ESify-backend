@@ -3,7 +3,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask import session
 import settings
 from api.routes.authentication import ns as authentication_ns
-from api.routes.posts import ns as post_ns
+from api.routes.account import ns as account_ns
+
 from api.restplus import api
 from models import db
 
@@ -31,7 +32,7 @@ def initialize_app(flask_app):
     blueprint = Blueprint('api', __name__, url_prefix='/api')
     api.init_app(blueprint)
     api.add_namespace(authentication_ns)
-    api.add_namespace(post_ns)
+    api.add_namespace(account_ns)
     flask_app.register_blueprint(blueprint)
 
     db.init_app(flask_app)
