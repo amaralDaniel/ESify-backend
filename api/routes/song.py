@@ -21,7 +21,5 @@ class Song(Resource):
         """
         Enables users to upload songs to the platform.
         """
-        data = request.json
-
-        upload(data)
+        upload(request)
         return None, 200
