@@ -36,6 +36,7 @@ def initialize_app(flask_app):
     api.add_namespace(authentication_ns)
     api.add_namespace(account_ns)
     api.add_namespace(playlist_ns)
+    api.add_namespace(song_ns)
     flask_app.register_blueprint(blueprint)
 
     db.init_app(flask_app)
