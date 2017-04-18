@@ -4,9 +4,8 @@ from flask import json
 from models import db
 from models.Playlist import Playlist
 
+
 def create_playlist(data):
-
-
     from esify import session
     from AccountBean import get_user
 
@@ -30,7 +29,6 @@ def create_playlist(data):
 def verify_owner(playlist_id, token):
     from api.beans.AccountBean import get_user
 
-
     user = get_user(token)
     playlist = Playlist.query.filter_by(id=playlist_id).first_or_404()
     owner = playlist.owner
@@ -41,7 +39,6 @@ def verify_owner(playlist_id, token):
 
 
 def get_playlist(playlist_id):
-
     try:
         playlist = Playlist.query.filter_by(id=playlist_id).first_or_404()
 
@@ -56,7 +53,6 @@ def get_playlist(playlist_id):
 
 
 def update_playlist(playlist_id, data):
-
     try:
         playlist = Playlist.query.filter_by(id=playlist_id).first_or_404()
         playlist.title = data.get('title')
@@ -69,14 +65,32 @@ def update_playlist(playlist_id, data):
         print e
         return False
 
+
 def delete_playlist(playlist_id):
     try:
         playlist = Playlist.query.filter(Playlist.id == playlist_id).first_or_404()
         db.session.delete(playlist)
-        #TODO check cascading delete
+        # TODO check cascading delete
         db.session.commit()
         return True
     except Exception as e:
         print e
         return False
 
+
+def get_all_playlists(token):
+    try:
+        from api.beans.AccountBean import get_user
+
+        user = get_user(token)
+        playlist_list = Playlist.query.filter_by(owner=user.id).all()
+
+        data = {}
+        for obj in playlist_list:
+            data[obj.title] = obj.description
+
+        return json.dumps(data)
+
+    except Exception as e:
+        print e
+        return False
