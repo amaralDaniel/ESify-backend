@@ -5,13 +5,14 @@ import settings
 from api.routes.authentication import ns as authentication_ns
 from api.routes.account import ns as account_ns
 from api.routes.playlist import ns as playlist_ns
+from api.routes.song import ns as song_ns
 
 from api.restplus import api
 from models import db
 
 app = Flask(__name__)
 
-SONGS_FOLDER = '/songs'
+SONGS_FOLDER = '/uploads'
 
 def configure_app(flask_app):
     flask_app.config['SERVER_NAME'] = settings.FLASK_SERVER_NAME
