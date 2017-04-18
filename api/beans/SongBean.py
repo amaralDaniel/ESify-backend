@@ -21,9 +21,12 @@ def upload(data):
         from esify import session
         from AccountBean import get_user
         title = data.get('title')
-        print title
+        artist = data.get('artist')
         user = get_user(session["X-Auth-Token"])
 
+        song = Song(title, artist, user)
+        db.session.add(song)
+        db.session.commit()
         return True
     except Exception as e:
         print e
