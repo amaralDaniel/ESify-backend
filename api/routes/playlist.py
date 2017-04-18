@@ -6,7 +6,7 @@ from flask import jsonify
 from flask_restplus import Resource
 
 from api.beans.AuthBean import verify_token
-from api.beans.PlaylistBean import create_playlist, verify_owner, get_playlist, update_playlist, delete_playlist
+from api.beans.PlaylistBean import create_playlist, verify_owner, get_playlist, update_playlist, delete_playlist, get_all_playlists
 from api.restplus import api
 
 
@@ -32,7 +32,24 @@ class PlaylistCollection(Resource):
         else:
             return None, 403
 
-    #TODO get all my playlists
+
+    @api.response(200, 'Retrieved all playlists')
+    @api.response(400, 'Bad Request')
+    @api.response(403, 'Forbidden accesss')
+    def post(self):
+        """
+        Gets all playlists
+        """
+        from esify import session
+        if not verify_token(session["X-Auth-Token"]):
+            session.clear()
+            return None, 403
+
+        list_playlists = get_all_playlists(session["X-Auth-Token"])
+        if list_playlists != {}:
+            return list_playlists, 200
+        else:
+            return "No playlists found", 200
 
 
 @ns.route('/<int:id>')
