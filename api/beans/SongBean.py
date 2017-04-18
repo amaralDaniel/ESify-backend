@@ -17,13 +17,16 @@ def allowed_file(filename):
 
 def upload(data):
 
-    try:
-        from esify import session
-        from AccountBean import get_user
-        title = data.get('title')
-        artist = data.get('artist')
-        user = get_user(session["X-Auth-Token"])
+    from esify import session
+    from api.beans.AccountBean import get_user
 
+    try:
+        title = data.get('title')
+        print "title:"+title
+        artist = data.get('artist')
+        print "artist:"+artist
+        user = get_user(session["X-Auth-Token"])
+        print user
         song = Song(title, artist, user)
         db.session.add(song)
         db.session.commit()
