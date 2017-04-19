@@ -27,19 +27,22 @@ def upload(request):
 
     from esify import session
     from api.beans.AccountBean import get_user
-
-
     try:
         title = request.form['title']
         artist = request.form['artist']
+        album = request.form['album']
+        release_year = request.form['release_year']
         user = get_user(session["X-Auth-Token"])
         file = request.files['song']
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(UPLOAD_FOLDER, filename))
-
-        song = Song(title, artist, user.username)
+        song = Song(title, artist, album, release_year, "" ,user.username)
         db.session.add(song)
+        db.session.commit()
+        song = Song.query.filter_by(path_to_file="").first_or_404()
+        if file and allowed_file(file.filename):
+            new_filename =str(song.id)+".mp3"
+            file.save(os.path.join(UPLOAD_FOLDER, new_filename))
+            path_to_file = os.path.join(UPLOAD_FOLDER, new_filename)
+        Song.query.filter_by(path_to_file="").update(dict(path_to_file=path_to_file))
         db.session.commit()
         return True
     except Exception as e:

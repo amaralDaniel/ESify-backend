@@ -22,8 +22,10 @@ class Song(Resource):
         """
         Enables users to upload songs to the platform.
         """
-        upload(request)
-        return None, 200
+        if(upload(request)):
+            return None, 200
+        else:
+            return None, 400
 
 @ns.route('/')
 class Songs(Resource):
