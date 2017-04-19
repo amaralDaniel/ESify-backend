@@ -3,7 +3,7 @@ from os.path import join, dirname, realpath
 from models import db
 from models.Song import Song
 from flask import json
-from flask import redirect, url_for, escape, request
+from flask import redirect, url_for, escape, request, session
 from werkzeug.utils import secure_filename
 
 
@@ -38,7 +38,7 @@ def upload(request):
             filename = secure_filename(file.filename)
             file.save(os.path.join(UPLOAD_FOLDER, filename))
 
-        song = Song(title, artist, user)
+        song = Song(title, artist, user.username)
         db.session.add(song)
         db.session.commit()
         return True
@@ -52,9 +52,33 @@ def get_all_songs():
 
         data = {}
         for obj in songs_list:
-            data["title_song"+str(obj.id)] = obj.title
-            data["artist_song"+str(obj.id)] = obj.artist
+            data["title_song_id:"+str(obj.id)] = obj.title
+            data["artist_song_id:"+str(obj.id)] = obj.artist
         return  json.dumps(data)
+    except Exception as e:
+        print e
+        return False
+
+
+def verify_owner(song_id, token):
+    from api.beans.AccountBean import get_user
+    user = get_user(token)
+    song = Song.query.filter_by(id=song_id).first_or_404()
+    owner = song.uploader
+    if user.username == owner:
+        return True
+    else:
+        return False
+
+def delete_song(song_id):
+    try:
+        song = Song.query.all()
+
+        for s in song:
+            if s.id == song_id:
+                db.session.delete(s)
+                db.session.commit()
+            return True
     except Exception as e:
         print e
         return False
