@@ -82,3 +82,15 @@ def delete_song(song_id):
     except Exception as e:
         print e
         return False
+
+def update_song_info(song_id, data):
+    try:
+        song = Song.query.filter_by(id=song_id).first_or_404()
+        song.title = data.get('title')
+        song.artist= data.get('artist')
+        db.session.add(song)
+        db.session.commit()
+        return True
+    except Exception as e:
+        print e
+        return False

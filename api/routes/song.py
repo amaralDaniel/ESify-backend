@@ -5,7 +5,7 @@ from flask import jsonify
 from flask_restplus import Resource
 
 from api.beans.AuthBean import register, login, logout, verify_token
-from api.beans.SongBean import upload, get_all_songs, verify_owner, delete_song
+from api.beans.SongBean import upload, get_all_songs, verify_owner, delete_song, update_song_info
 from api.restplus import api
 from models.Song import Song
 
@@ -58,3 +58,21 @@ class ManageSongs(Resource):
             return None, 200
         else:
             return None, 400
+    @api.response(200, 'Updated playlist')
+    @api.response(400, 'Bad Request')
+    @api.response(403, 'Forbidden accesss')
+    def put(self, id):
+        """
+        Updates song info by ID
+        """
+        from esify import session
+        if not verify_token(session["X-Auth-Token"]):
+            session.clear()
+            return None, 403
+
+        if not verify_owner(id, session["X-Auth-Token"]):
+            return "you're not allowed", 403
+
+        data = request.json
+        update_song_info(id,data)
+        return None,200
