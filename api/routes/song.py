@@ -5,7 +5,7 @@ from flask import jsonify
 from flask_restplus import Resource
 
 from api.beans.AuthBean import register, login, logout, verify_token
-from api.beans.SongBean import upload, get_all_songs, verify_owner, delete_song, update_song_info
+from api.beans.SongBean import upload, get_all_songs, verify_owner, delete_song, update_song_info, search_song_by
 from api.restplus import api
 from models.Song import Song
 
@@ -41,7 +41,7 @@ class Songs(Resource):
 
 @ns.route('/<int:id>')
 class ManageSongs(Resource):
-    @api.response(200, 'Deleted playlist ')
+    @api.response(200, 'Deleted song ')
     @api.response(400, 'Bad Request')
     @api.response(403, 'Forbidden accesss')
     def delete(self, id):
@@ -76,3 +76,16 @@ class ManageSongs(Resource):
         data = request.json
         update_song_info(id,data)
         return None,200
+
+@ns.route('/search')
+class SearchSongs(Resource):
+    @api.response(200, 'Songs Retrieved')
+    @api.response(400, 'Bad Request')
+    @api.response(403, 'Forbidden accesss')
+    def post(self):
+        """
+        Retrieves songs by search criteria
+        """
+        data = request.json
+        songs_list = search_song_by(data)
+        return songs_list,200

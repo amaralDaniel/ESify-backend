@@ -94,3 +94,17 @@ def update_song_info(song_id, data):
     except Exception as e:
         print e
         return False
+
+def search_song_by(data):
+    try:
+        artist = data.get('artist')
+        if(artist != ''):
+            songs_list = Song.query.filter_by(artist=artist).all()
+            data = {}
+            for obj in songs_list:
+                data["title_song_id:"+str(obj.id)] = obj.title
+                data["artist_song_id:"+str(obj.id)] = obj.artist
+            return  json.dumps(data)
+    except Exception as e:
+        print e
+        return False
