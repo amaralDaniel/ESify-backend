@@ -45,3 +45,16 @@ def upload(request):
     except Exception as e:
         print e
         return False
+
+def get_all_songs():
+    try:
+        songs_list = Song.query.all()
+
+        data = {}
+        for obj in songs_list:
+            data["title"] = obj.title
+            data["artist"] = obj.artist
+            return  json.dumps(data)
+    except Exception as e:
+        print e
+        return False
