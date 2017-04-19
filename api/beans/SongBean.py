@@ -20,7 +20,8 @@ def __init__(self):
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
+def get_file_extension(filename):
+    return filename.rsplit('.', 1)[1].lower()
 
 
 def upload(request):
@@ -39,7 +40,7 @@ def upload(request):
         db.session.commit()
         song = Song.query.filter_by(path_to_file="").first_or_404()
         if file and allowed_file(file.filename):
-            new_filename =str(song.id)+".mp3"
+            new_filename =str(song.id)+'.'+get_file_extension(file.filename)
             file.save(os.path.join(UPLOAD_FOLDER, new_filename))
             path_to_file = os.path.join(UPLOAD_FOLDER, new_filename)
         Song.query.filter_by(path_to_file="").update(dict(path_to_file=path_to_file))
