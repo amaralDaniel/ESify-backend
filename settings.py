@@ -1,3 +1,4 @@
+
 # Flask settings
 FLASK_SERVER_NAME = 'localhost:8000'
 FLASK_DEBUG = True  # Do not use debug mode in production
@@ -11,3 +12,5 @@ RESTPLUS_ERROR_404_HELP = False
 # SQLAlchemy settings
 SQLALCHEMY_DATABASE_URI = 'mysql+mysqldb://root:root@localhost:3306/esify'
 SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+SONGS_FOLDER = './uploads/'

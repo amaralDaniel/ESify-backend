@@ -12,7 +12,7 @@ from models import db
 
 app = Flask(__name__)
 
-SONGS_FOLDER = '/uploads'
+
 
 def configure_app(flask_app):
     flask_app.config['SERVER_NAME'] = settings.FLASK_SERVER_NAME
@@ -24,7 +24,7 @@ def configure_app(flask_app):
     flask_app.config['RESTPLUS_MASK_SWAGGER'] = settings.RESTPLUS_MASK_SWAGGER
     flask_app.config['ERROR_404_HELP'] = settings.RESTPLUS_ERROR_404_HELP
 
-    flask_app.config['SONGS_UPLOADED'] = SONGS_FOLDER
+    flask_app.config['UPLOAD_FOLDER'] = settings.SONGS_FOLDER
     # set the secret key.  keep this really secret:
     flask_app.secret_key = "\xe4IX\x1a\xf4\x9b\x80'K\xb1\xa1L\xba\xcd\xe5\xb0Ts\xfal\xe3NB\xa1"
 
