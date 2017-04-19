@@ -52,9 +52,9 @@ def get_all_songs():
 
         data = {}
         for obj in songs_list:
-            data["title"] = obj.title
-            data["artist"] = obj.artist
-            return  json.dumps(data)
+            data["title_song"+str(obj.id)] = obj.title
+            data["artist_song"+str(obj.id)] = obj.artist
+        return  json.dumps(data)
     except Exception as e:
         print e
         return False
