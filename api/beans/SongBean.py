@@ -20,6 +20,7 @@ def __init__(self):
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 def get_file_extension(filename):
     return filename.rsplit('.', 1)[1].lower()
 
@@ -75,14 +76,11 @@ def verify_owner(song_id, token):
         return False
 
 def delete_song(song_id):
+    from esify import session
     try:
-        song = Song.query.all()
-
-        for s in song:
-            if s.id == song_id:
-                db.session.delete(s)
-                db.session.commit()
-            return True
+        Song.query.filter_by(id=song_id).update(dict(uploader='admin'))
+        db.session.commit()
+        return True
     except Exception as e:
         print e
         return False
