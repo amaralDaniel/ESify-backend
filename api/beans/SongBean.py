@@ -57,9 +57,14 @@ def get_all_songs():
 
         data = {}
         for obj in songs_list:
-            data["title_song_id:"+str(obj.id)] = obj.title
-            data["artist_song_id:"+str(obj.id)] = obj.artist
-        return  json.dumps(data)
+            song_obj = {}
+            song_obj['artist'] = obj.artist
+            song_obj['title'] = obj.title
+            song_obj['album'] = obj.album
+            song_obj['release_year'] = obj.release_year
+            data[obj.id] = song_obj
+        data2 = json.loads(json.dumps(data))
+        return data2
     except Exception as e:
         print e
         return False
@@ -88,8 +93,14 @@ def delete_song(song_id):
 def update_song_info(song_id, data):
     try:
         song = Song.query.filter_by(id=song_id).first_or_404()
-        song.title = data.get('title')
-        song.artist= data.get('artist')
+        if(data.get('artist')!=None):
+            song.artist = data.get('artist')
+        if(data.get('title')!=None):
+            song.title = data.get('title')
+        if(data.get('release_year')!=None):
+            song.release_year = data.get('release_year')
+        if(data.get('album')!=None):
+            song.album = data.get('album')
         db.session.add(song)
         db.session.commit()
         return True
@@ -99,14 +110,52 @@ def update_song_info(song_id, data):
 
 def search_song_by(data):
     try:
-        artist = data.get('artist')
-        if(artist != ''):
-            songs_list = Song.query.filter_by(artist=artist).all()
+
+        if(data.get('artist')!=None and data.get('title')!=None):
+            artist = data.get('artist')
+            title = data.get('title')
+            songs_list = Song.query.filter_by(artist=artist,title=title).all()
+            data = {}
             data = {}
             for obj in songs_list:
-                data["title_song_id:"+str(obj.id)] = obj.title
-                data["artist_song_id:"+str(obj.id)] = obj.artist
-            return  json.dumps(data)
+                song_obj = {}
+                song_obj['artist'] = obj.artist
+                song_obj['title'] = obj.title
+                song_obj['album'] = obj.album
+                song_obj['release_year'] = obj.release_year
+                data[obj.id] = song_obj
+            data2 = json.loads(json.dumps(data))
+            return data2
+        elif(data.get('artist')!=None and data.get('title')==None):
+            artist = data.get('artist')
+            songs_list = Song.query.filter_by(artist=artist).all()
+            data = {}
+            data = {}
+            for obj in songs_list:
+                song_obj = {}
+                song_obj['artist'] = obj.artist
+                song_obj['title'] = obj.title
+                song_obj['album'] = obj.album
+                song_obj['release_year'] = obj.release_year
+                data[obj.id] = song_obj
+            data2 = json.loads(json.dumps(data))
+            return data2
+        elif(data.get('artist')==None and data.get('title')!=None):
+            title = data.get('title')
+            songs_list = Song.query.filter_by(title=title).all()
+            data = {}
+            data = {}
+            for obj in songs_list:
+                song_obj = {}
+                song_obj['artist'] = obj.artist
+                song_obj['title'] = obj.title
+                song_obj['album'] = obj.album
+                song_obj['release_year'] = obj.release_year
+                data[obj.id] = song_obj
+            data2 = json.loads(json.dumps(data))
+            return data2
+        else:
+            return False
     except Exception as e:
         print e
         return False
