@@ -3,7 +3,7 @@ import logging
 from flask import json
 from flask import request, redirect
 from flask import jsonify
-from flask_restplus import Resource
+from flask_restplus import Resource,  fields
 from werkzeug.datastructures import FileStorage
 from api.beans.AuthBean import verify_token
 from api.beans.PlaylistBean import create_playlist, verify_owner, get_playlist, update_playlist, delete_playlist, get_all_playlists, add_song_to_playlist, remove_song_from_playlist, detail_songs
@@ -13,26 +13,49 @@ from api.restplus import api
 log = logging.getLogger(__name__)
 
 ns = api.namespace('playlist', description='Operations related to playlist')
+node_put_parser = api.parser()
 
+playlist_info = api.model(
+        "Creadentials",
+        {
+                "title": fields.String(
+                        description="Playlist title",
+                        required=True,
+                        default="Le playlist"
+                ),
+                "description": fields.String(
+                        description="Playlist description",
+                        required=True,
+                        default="gym beats"
+                )
+        }
+)
+
+node_put_parser.add_argument(
+    'playlist_info',
+    type=playlist_info, required=True, help='Account access email',
+    location='json')
 @ns.route('/')
-
+@ns.route('/register')
 class PlaylistCollection(Resource):
 
     #TODO serielizer
-    @api.response(200, 'Retrieved playlist')
+    @api.response(200, 'Playlist Created')
     @api.response(400, 'Bad Request')
     @api.response(403, 'Forbidden accesss')
-
+    @api.doc(body=playlist_info)
     def post(self):
         """
         Creates a new playlist
         """
+        from esify import session
+        if(session.has_key('logged_in') != True):
+            return "Forbidden accesss", 403
         data = request.json
-
-        if create_playlist(data):
-            return None, 200
+        if (create_playlist(data)==True):
+            return 'Playlist Created', 200
         else:
-            return None, 403
+            return 'Bad Request', 400
 
 
     @api.response(200, 'Retrieved all playlists')
@@ -44,9 +67,8 @@ class PlaylistCollection(Resource):
         """
         from esify import session
 
-        if not verify_token(session["X-Auth-Token"]):
-            session.clear()
-            return None, 403
+        if(session.has_key('logged_in') != True):
+            return "Forbidden accesss", 403
 
         list_playlists = get_all_playlists(session["X-Auth-Token"])
         if list_playlists != {}:

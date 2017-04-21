@@ -14,7 +14,7 @@ ns = api.namespace('authentication', description='Operations related to authenti
 node_put_parser = api.parser()
 
 package = api.model(
-        "Creadentials",
+        "Credentials",
         {
                 "username": fields.String(
                         description="acess username",

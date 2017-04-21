@@ -9,11 +9,11 @@ from models.Playlist import Playlist
 def create_playlist(data):
     from esify import session
     from AccountBean import get_user
-
+    user = get_user(session["X-Auth-Token"])
+    print user.username
     try:
-
         user = get_user(session["X-Auth-Token"])
-
+        print(user.username)
         title = data.get('title')
         description = data.get('description')
         owner = user
@@ -90,7 +90,7 @@ def get_all_playlists(token):
         for obj in playlist_list:
             data[obj.title] = obj.description
 
-        return json.dumps(data)
+        return json.loads(json.dumps(data))
 
     except Exception as e:
         print e
