@@ -13,7 +13,7 @@ def get_user(token):
     return user
 
 def get_account(token):
-            
+
     user = User.query.filter_by(session_token=token).first_or_404()
     data = {}
     data['email'] = user.email
@@ -27,9 +27,13 @@ def update_account(token, data):
 
     try:
         user = User.query.filter(User.session_token == token).first_or_404()
-        user.username = data.get('username')
-        user.email = data.get('email')
-        user.password = data.get('password')
+
+        if( data.get('username')!=None):
+            user.username = data.get('username')
+        if( data.get('email')!=None):
+            user.email = data.get('email')
+        if( data.get('password')!=None):
+            user.password = data.get('password')
         db.session.add(user)
         db.session.commit()
         return True
