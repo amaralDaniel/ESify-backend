@@ -38,14 +38,9 @@ def upload(request):
 
     try:
         user = get_user(session["X-Auth-Token"])
-        print user.username
     except Exception as e:
         print e
         return False
-
-
-
-
     try:
         song = Song(title, artist, album, release_year, "" ,user.username)
         db.session.add(song)
@@ -53,7 +48,6 @@ def upload(request):
     except Exception as e:
         print e
         return False
-
     try:
         if file and allowed_file(file.filename):
             Song.query.filter_by(path_to_file="").first_or_404()

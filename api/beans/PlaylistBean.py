@@ -13,7 +13,6 @@ def create_playlist(data):
     print user.username
     try:
         user = get_user(session["X-Auth-Token"])
-        print(user.username)
         title = data.get('title')
         description = data.get('description')
         owner = user
@@ -100,6 +99,7 @@ def get_all_playlists(token):
 
 
 def add_song_to_playlist(p_id, s_id):
+    from esify import session
 
     if verify_owner(p_id,session["X-Auth-Token"]):
         try:
@@ -111,6 +111,7 @@ def add_song_to_playlist(p_id, s_id):
 
             playlist.playlist_songs.append(song)
             db.session.commit()
+            return True
         except Exception as e:
             print e
             return False
@@ -118,12 +119,17 @@ def add_song_to_playlist(p_id, s_id):
 
 def remove_song_from_playlist(p_id, s_id):
 
+    from esify import session
     if verify_owner(p_id, session["X-Auth-Token"]):
         try:
             from models.Playlist import Playlist
             from models.Song import Song
 
-
+            playlist = Playlist.query.filter_by(id=p_id).first_or_404()
+            song = Song.query.filter_by(id=s_id).first_or_404()
+            playlist.playlist_songs.remove(song)
+            db.session.commit()
+            return True
         except Exception as e:
             print e
             return False
@@ -139,7 +145,7 @@ def detail_songs(p_id):
         for obj in playlist.playlist_songs:
             data[obj.title] = obj.artist
 
-        return json.dumps(data)
+        return json.loads(json.dumps(data))
     except Exception as e:
         print e
         return False

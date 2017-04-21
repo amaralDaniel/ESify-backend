@@ -18,7 +18,6 @@ package = api.model(
         {
                 "username": fields.String(
                         description="acess username",
-                        required=True,
                         default="Account username"
                 ),
                 "password": fields.String(

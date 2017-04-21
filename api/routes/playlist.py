@@ -122,23 +122,24 @@ class Playlist(Resource):
         else:
             return 'Bad Request', 400
 
-    @api.response(200, 'Deleted playlist ')
+    @api.response(200, 'Deleted playlist')
     @api.response(400, 'Bad Request')
-    @api.response(403, 'Forbidden accesss')
+    @api.response(403, 'Forbidden access')
     def delete(self, id):
         """
-        Delete account from the service
+        Delete Playlist by ID
         """
         from esify import session
-        if not verify_token(session["X-Auth-Token"]):
-            session.clear()
-            return None, 403
+        if(session.has_key('logged_in') != True):
+            return "Forbidden accesss", 403
+
         if not verify_owner(id, session["X-Auth-Token"]):
-            return "you're not allowed", 403
+            return "Forbidden access", 403
+
         if delete_playlist(id):
-            return None, 200
+            return 'Playlist deleted', 200
         else:
-            return None, 400
+            return 'Bad Request', 400
 
 
 @ns.route('/<int:p_id>/<int:s_id>')
@@ -152,14 +153,13 @@ class PlaylistSong(Resource):
         Add song to playlist
         """
         from esify import session
-        if not verify_token(session["X-Auth-Token"]):
-            session.clear()
-            return None, 403
+        if(session.has_key('logged_in') != True):
+            return "Forbidden accesss", 403
 
         if add_song_to_playlist(p_id, s_id):
-            return None, 200
+            return 'Added song to playlist seccessfully', 200
         else:
-            return None, 403
+            return 'Bad Request', 400
 
 
     @api.response(200, 'Remove song from playlist ')
@@ -167,17 +167,16 @@ class PlaylistSong(Resource):
     @api.response(403, 'Forbidden accesss')
     def delete(self, p_id, s_id):
         """
-        Delete account from the service
+        Delete song from playlist
         """
         from esify import session
-        if not verify_token(session["X-Auth-Token"]):
-            session.clear()
-            return None, 403
+        if(session.has_key('logged_in') != True):
+            return "Forbidden accesss", 403
 
         if remove_song_from_playlist(p_id, s_id):
-            return None, 200
+            return 'Removed song from playlist',  200
         else:
-            return None, 403
+            return 'Bad Request', 400
 
 @ns.route('/<int:id>/songs')
 class PlaylistDetails(Resource):
@@ -190,9 +189,8 @@ class PlaylistDetails(Resource):
         Details songs of a playlist
         """
         from esify import session
-        if not verify_token(session["X-Auth-Token"]):
-            session.clear()
-            return None, 403
+        if(session.has_key('logged_in') != True):
+            return "Forbidden accesss", 403
 
         song_list = detail_songs(id)
         if song_list != {}:
