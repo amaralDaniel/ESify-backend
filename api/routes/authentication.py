@@ -29,25 +29,29 @@ class Register(Resource):
 @ns.route('/login')
 class Login(Resource):
 
-    @api.response(200, 'User logged in')
+    @api.response(200, 'User successfully logged in')
+    @api.response(400, 'Invalid Username/Password')
     def post(self):
         """
         Enables users to login in the platform.
         """
         data = request.json
-
-        login(data)
-        return None, 200
+        if(login(data)):
+            return "User successfully logged in", 200
+        else:
+            return "Invalid Username/Password", 400
 
 
 @ns.route('/logout')
 class Logout(Resource):
 
-    @api.response(200,'Logged user ')
+    @api.response(200,'User successfully logged out')
+    @api.response(400,'Error logging out')
     def get(self):
         """
         Enables users to logout from the platform.
         """
-
-        logout()
-        return None, 200
+        if(logout()):
+            return "User successfully logged out", 200
+        else:
+            return "Error logging out", 400

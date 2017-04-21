@@ -23,12 +23,10 @@ class Settings(Resource):
         Retrieves account information to the user
         """
         from esify import session
-        if not verify_token(session["X-Auth-Token"]):
-            session.clear()
-            return None, 403
-        user = get_account(session["X-Auth-Token"])
-
-        return user, 200
+        if(session.has_key('logged_in') != True):
+            return "Forbidden accesss", 403
+        else:
+            return get_account(session['X-Auth-Token']),200
 
     @api.response(200, 'Updated account information')
     @api.response(400, 'Bad Request')
@@ -64,6 +62,3 @@ class Settings(Resource):
             return None, 200
         else:
             return None, 400
-
-
-

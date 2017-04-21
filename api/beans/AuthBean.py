@@ -43,7 +43,6 @@ def login(data):
     from esify import session
 
     try:
-
         email = data.get('email')
         password = data.get('password')
 
@@ -57,7 +56,6 @@ def login(data):
 
         session['logged_in'] = True
         session["X-Auth-Token"] = u.session_token
-
         return True
     except Exception as e:
         print e
@@ -69,8 +67,7 @@ def logout():
 
     try:
         session.pop('logged_in', None)
-
-        return None
+        return True
     except Exception as e:
         print e
         return False

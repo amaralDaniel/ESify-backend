@@ -13,13 +13,13 @@ def get_user(token):
     return user
 
 def get_account(token):
+            
     user = User.query.filter_by(session_token=token).first_or_404()
-
     data = {}
     data['email'] = user.email
     data['username'] = user.username
 
-    json_data = json.dumps(data)
+    json_data = json.loads(json.dumps(data))
     return json_data
 
 
