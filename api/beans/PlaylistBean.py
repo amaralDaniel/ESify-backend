@@ -42,12 +42,11 @@ def verify_owner(playlist_id, token):
 def get_playlist(playlist_id):
     try:
         playlist = Playlist.query.filter_by(id=playlist_id).first_or_404()
-
         data = {}
         data['title'] = playlist.title
         data['description'] = playlist.description
 
-        playlist_data = json.dumps(data)
+        playlist_data = json.loads(json.dumps(data))
         return playlist_data
     except Exception as e:
         print e
@@ -88,8 +87,11 @@ def get_all_playlists(token):
 
         data = {}
         for obj in playlist_list:
-            data[obj.title] = obj.description
-
+            pl = {}
+            pl[obj.title] = obj.title
+            pl[obj.description] = obj.description
+            pl[obj.id] = obj.id
+            data[obj.id]=pl
         return json.loads(json.dumps(data))
 
     except Exception as e:

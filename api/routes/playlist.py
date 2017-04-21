@@ -36,7 +36,6 @@ node_put_parser.add_argument(
     type=playlist_info, required=True, help='Account access email',
     location='json')
 @ns.route('/')
-@ns.route('/register')
 class PlaylistCollection(Resource):
 
     #TODO serielizer
@@ -88,12 +87,11 @@ class Playlist(Resource):
         Retrieves a certain playlist by ID
         """
         from esify import session
-        if not verify_token(session["X-Auth-Token"]):
-            session.clear()
-            return None, 403
+        if(session.has_key('logged_in') != True):
+            return "Forbidden access", 403
 
         if not verify_owner(id, session["X-Auth-Token"]):
-            return "you're not allowed", 403
+            return "Forbidden access", 403
         playlist = get_playlist(id)
         return playlist, 200
 
