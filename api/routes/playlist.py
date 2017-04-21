@@ -92,28 +92,35 @@ class Playlist(Resource):
 
         if not verify_owner(id, session["X-Auth-Token"]):
             return "Forbidden access", 403
+
         playlist = get_playlist(id)
-        return playlist, 200
+        if(playlist):
+            return playlist, 200
+        else:
+            return 400, 'Bad Request'
+
 
     @api.response(200, 'Updated playlist')
     @api.response(400, 'Bad Request')
-    @api.response(403, 'Forbidden accesss')
+    @api.response(403, 'Forbidden access')
+    @api.doc(body=playlist_info)
     def put(self, id):
         """
         Updates a certain playlist by ID
         """
         from esify import session
-        if not verify_token(session["X-Auth-Token"]):
-            session.clear()
-            return None, 403
+        if(session.has_key('logged_in') != True):
+            return "Forbidden accesss", 403
 
         if not verify_owner(id, session["X-Auth-Token"]):
-            return "you're not allowed", 403
+            return "Forbidden access", 403
 
         data = request.json
 
-        update_playlist(id, data)
-        return None, 200
+        if(update_playlist(id, data)):
+            return 'Updated playlist', 200
+        else:
+            return 'Bad Request', 400
 
     @api.response(200, 'Deleted playlist ')
     @api.response(400, 'Bad Request')

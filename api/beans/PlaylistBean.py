@@ -88,9 +88,9 @@ def get_all_playlists(token):
         data = {}
         for obj in playlist_list:
             pl = {}
-            pl[obj.title] = obj.title
-            pl[obj.description] = obj.description
-            pl[obj.id] = obj.id
+            pl['title'] = obj.title
+            pl['description'] = obj.description
+            pl['id'] = obj.id
             data[obj.id]=pl
         return json.loads(json.dumps(data))
 
