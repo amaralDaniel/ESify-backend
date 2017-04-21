@@ -18,13 +18,16 @@ ns = api.namespace('song', description='Operations related to songs')
 class Song(Resource):
 
     @api.response(200, 'Song Uploaded')
+    @api.response(400, 'Bad Request')
     def post(self):
         """
         Enables users to upload songs to the platform.
         """
-        if(upload(request)):
-            return "Song uploaded", 200
-        
+        if(upload(request)==True):
+            return "Song uploaded",200
+        else:
+            return 'Bad Request', 400
+
 
 @ns.route('/')
 class Songs(Resource):
