@@ -18,13 +18,12 @@ def get_account(token):
     data = {}
     data['email'] = user.email
     data['username'] = user.username
-
     json_data = json.loads(json.dumps(data))
     return json_data
 
 
 def update_account(token, data):
-
+    from hashlib import sha512
     try:
         user = User.query.filter(User.session_token == token).first_or_404()
 
@@ -33,7 +32,7 @@ def update_account(token, data):
         if( data.get('email')!=None):
             user.email = data.get('email')
         if( data.get('password')!=None):
-            user.password = data.get('password')
+            user.password = sha512(data.get('password')).hexdigest()
         db.session.add(user)
         db.session.commit()
         return True

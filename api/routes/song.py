@@ -33,9 +33,9 @@ class Song(Resource):
         """
         Enables users to upload songs to the platform.
         """
+        from esify import session
         try:
             user = get_user(session["X-Auth-Token"])
-            print user.username
         except Exception as e:
             print e
             return 'Forbidden Access', 403
