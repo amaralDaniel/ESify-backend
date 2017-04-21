@@ -169,10 +169,9 @@ class SearchSongs(Resource):
         from esify import session
         if(session.has_key('logged_in') != True):
             return "Forbidden access", 403
-            
         data = request.json
         if(search_song_by(data)):
             song_list = search_song_by(data)
-            return songs_list,200
+            return song_list,200
         else:
             return 'Bad Request', 400
