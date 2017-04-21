@@ -28,6 +28,8 @@ class Settings(Resource):
         else:
             return get_account(session['X-Auth-Token']),200
 
+
+
     @api.response(200, 'Updated account information')
     @api.response(400, 'Bad Request')
     @api.response(403, 'Forbidden accesss')
@@ -36,18 +38,17 @@ class Settings(Resource):
         Updates account information to the user
         """
         from esify import session
-        if not verify_token(session["X-Auth-Token"]):
-            session.clear()
-            return None, 403
-
+        if(session.has_key('logged_in') != True):
+            return "Forbidden accesss", 403
         data = request.json
-
         if update_account(session["X-Auth-Token"], data):
             return None, 200
         else:
             return None, 400
 
-    @api.response(200, 'Deleted account ')
+
+
+    @api.response(200, 'Deleted account')
     @api.response(400, 'Bad Request')
     @api.response(403, 'Forbidden accesss')
     def delete(self):
@@ -55,10 +56,9 @@ class Settings(Resource):
         Delete account from the service
         """
         from esify import session
-        if not verify_token(session["X-Auth-Token"]):
-            session.clear()
-            return None, 403
+        if(session.has_key('logged_in') != True):
+            return "Forbidden accesss", 403
         if delete_account(session["X-Auth-Token"]):
-            return None, 200
+            return 'Deleted account', 200
         else:
-            return None, 400
+            return 'Bad Request', 400

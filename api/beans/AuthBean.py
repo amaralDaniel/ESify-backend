@@ -9,6 +9,7 @@ def __init__(self):
     pass
 
 
+
 def verify_token(token):
     try:
         user = User.query.filter_by(session_token=token).first()

@@ -4,7 +4,7 @@ from flask import json
 from flask import request, redirect
 from flask import jsonify
 from flask_restplus import Resource
-
+from werkzeug.datastructures import FileStorage
 from api.beans.AuthBean import verify_token
 from api.beans.PlaylistBean import create_playlist, verify_owner, get_playlist, update_playlist, delete_playlist, get_all_playlists, add_song_to_playlist, remove_song_from_playlist, detail_songs
 from api.restplus import api
@@ -15,12 +15,14 @@ log = logging.getLogger(__name__)
 ns = api.namespace('playlist', description='Operations related to playlist')
 
 @ns.route('/')
+
 class PlaylistCollection(Resource):
 
     #TODO serielizer
     @api.response(200, 'Retrieved playlist')
     @api.response(400, 'Bad Request')
     @api.response(403, 'Forbidden accesss')
+
     def post(self):
         """
         Creates a new playlist

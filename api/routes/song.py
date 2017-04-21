@@ -1,28 +1,44 @@
 import logging
 from flask import json
-from flask import request, redirect
+from flask import request, redirect, session
 from flask import jsonify
 from flask_restplus import Resource
-
+from werkzeug.datastructures import FileStorage
 from api.beans.AuthBean import register, login, logout, verify_token
 from api.beans.SongBean import upload, get_all_songs, verify_owner, delete_song, update_song_info, search_song_by
 from api.restplus import api
 from models.Song import Song
-
+from api.beans.AccountBean import get_user
 
 log = logging.getLogger(__name__)
 
 ns = api.namespace('song', description='Operations related to songs')
+parser = api.parser()
+parser.add_argument('title', type=str, help='Song title', location='form')
+parser.add_argument('album', type=str, help='Album title', location='form')
+parser.add_argument('artist', type=str, help='Song artist name', location='form')
+parser.add_argument('release_year', type=int, help='Album title', location='form')
+parser.add_argument('song', type=FileStorage, location='files')
+
+
 
 @ns.route('/upload')
 class Song(Resource):
 
     @api.response(200, 'Song Uploaded')
     @api.response(400, 'Bad Request')
+    @api.response(403, 'Forbidden Access')
+    @api.expect(parser)
     def post(self):
         """
         Enables users to upload songs to the platform.
         """
+        try:
+            user = get_user(session["X-Auth-Token"])
+            print user.username
+        except Exception as e:
+            print e
+            return 'Forbidden Access', 403
         if(upload(request)==True):
             return "Song uploaded",200
         else:
