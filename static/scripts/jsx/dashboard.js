@@ -16,10 +16,6 @@ var Dashboard = React.createClass({
         };
     },
 
-    songActions: function () {
-      <UploadSong></UploadSong>
-    },
-
     componentDidMount: function () {
         var self = this;
         $.get(this.props.source, function (result) {
@@ -33,11 +29,14 @@ var Dashboard = React.createClass({
         }.bind(this));
     },
 
+    songActions: function(){
+
+    },
+
     render: function () {
         songs = this.state.pSong || [];
         return (
             <div>
-
                 <button onClick={this.songActions}>Songs Actions</button>
             </div>
 

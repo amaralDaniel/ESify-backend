@@ -40,8 +40,8 @@ var InitialPage = React.createClass({
             })
         }).then(response => {
            if(response.status != 200) {
-               alert("something went wrong.")
-               return
+               alert("something went wrong.");
+               return ;
            }
            response.json()
                .then(json => {
