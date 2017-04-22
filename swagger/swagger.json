@@ -1,0 +1,423 @@
+{
+    "info": {
+        "version": "1.0", 
+        "description": "Backend for Esify, a platform to manage your music", 
+        "title": "ESify-backend"
+    }, 
+    "paths": {
+        "/account/": {
+            "put": {
+                "operationId": "put_settings", 
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    }, 
+                    "200": {
+                        "description": "Updated account information"
+                    }, 
+                    "403": {
+                        "description": "Forbidden accesss"
+                    }
+                }, 
+                "tags": [
+                    "account"
+                ], 
+                "summary": "Updates account information to the user"
+            }, 
+            "delete": {
+                "operationId": "delete_settings", 
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    }, 
+                    "200": {
+                        "description": "Deleted account "
+                    }, 
+                    "403": {
+                        "description": "Forbidden accesss"
+                    }
+                }, 
+                "tags": [
+                    "account"
+                ], 
+                "summary": "Delete account from the service"
+            }, 
+            "get": {
+                "operationId": "get_settings", 
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    }, 
+                    "200": {
+                        "description": "Retrieved account information"
+                    }, 
+                    "403": {
+                        "description": "Forbidden accesss"
+                    }
+                }, 
+                "tags": [
+                    "account"
+                ], 
+                "summary": "Retrieves account information to the user"
+            }
+        }, 
+        "/authentication/login": {
+            "post": {
+                "operationId": "post_login", 
+                "responses": {
+                    "200": {
+                        "description": "User logged in"
+                    }
+                }, 
+                "tags": [
+                    "authentication"
+                ], 
+                "summary": "Enables users to login in the platform"
+            }
+        }, 
+        "/authentication/logout": {
+            "get": {
+                "operationId": "get_logout", 
+                "responses": {
+                    "200": {
+                        "description": "Logged user "
+                    }
+                }, 
+                "tags": [
+                    "authentication"
+                ], 
+                "summary": "Enables users to logout from the platform"
+            }
+        }, 
+        "/authentication/register": {
+            "post": {
+                "operationId": "post_register", 
+                "responses": {
+                    "200": {
+                        "description": "User registered"
+                    }
+                }, 
+                "tags": [
+                    "authentication"
+                ], 
+                "summary": "Enables users to register in the platform"
+            }
+        }, 
+        "/playlist/": {
+            "post": {
+                "operationId": "post_playlist_collection", 
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    }, 
+                    "200": {
+                        "description": "Retrieved playlist"
+                    }, 
+                    "403": {
+                        "description": "Forbidden accesss"
+                    }
+                }, 
+                "tags": [
+                    "playlist"
+                ], 
+                "summary": "Creates a new playlist"
+            }, 
+            "get": {
+                "operationId": "get_playlist_collection", 
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    }, 
+                    "200": {
+                        "description": "Retrieved all playlists"
+                    }, 
+                    "403": {
+                        "description": "Forbidden accesss"
+                    }
+                }, 
+                "tags": [
+                    "playlist"
+                ], 
+                "summary": "Gets all playlists"
+            }
+        }, 
+        "/playlist/{id}": {
+            "put": {
+                "operationId": "put_playlist", 
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    }, 
+                    "200": {
+                        "description": "Updated playlist"
+                    }, 
+                    "403": {
+                        "description": "Forbidden accesss"
+                    }
+                }, 
+                "tags": [
+                    "playlist"
+                ], 
+                "summary": "Updates a certain playlist by ID"
+            }, 
+            "delete": {
+                "operationId": "delete_playlist", 
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    }, 
+                    "200": {
+                        "description": "Deleted playlist "
+                    }, 
+                    "403": {
+                        "description": "Forbidden accesss"
+                    }
+                }, 
+                "tags": [
+                    "playlist"
+                ], 
+                "summary": "Delete account from the service"
+            }, 
+            "parameters": [
+                {
+                    "required": true, 
+                    "type": "integer", 
+                    "name": "id", 
+                    "in": "path"
+                }
+            ], 
+            "get": {
+                "operationId": "get_playlist", 
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    }, 
+                    "200": {
+                        "description": "Retrieved playlist"
+                    }, 
+                    "403": {
+                        "description": "Forbidden accesss"
+                    }
+                }, 
+                "tags": [
+                    "playlist"
+                ], 
+                "summary": "Retrieves a certain playlist by ID"
+            }
+        }, 
+        "/playlist/{id}/songs": {
+            "parameters": [
+                {
+                    "required": true, 
+                    "type": "integer", 
+                    "name": "id", 
+                    "in": "path"
+                }
+            ], 
+            "get": {
+                "operationId": "get_playlist_details", 
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    }, 
+                    "200": {
+                        "description": "Retrieved songs of playlist"
+                    }, 
+                    "403": {
+                        "description": "Forbidden access"
+                    }
+                }, 
+                "tags": [
+                    "playlist"
+                ], 
+                "summary": "Details songs of a playlist"
+            }
+        }, 
+        "/playlist/{p_id}/{s_id}": {
+            "post": {
+                "operationId": "post_playlist_song", 
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    }, 
+                    "200": {
+                        "description": "Add song to playlist"
+                    }, 
+                    "403": {
+                        "description": "Forbidden accesss"
+                    }
+                }, 
+                "tags": [
+                    "playlist"
+                ], 
+                "summary": "Add song to playlist"
+            }, 
+            "parameters": [
+                {
+                    "required": true, 
+                    "type": "integer", 
+                    "name": "p_id", 
+                    "in": "path"
+                }, 
+                {
+                    "required": true, 
+                    "type": "integer", 
+                    "name": "s_id", 
+                    "in": "path"
+                }
+            ], 
+            "delete": {
+                "operationId": "delete_playlist_song", 
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    }, 
+                    "200": {
+                        "description": "Remove song from playlist "
+                    }, 
+                    "403": {
+                        "description": "Forbidden accesss"
+                    }
+                }, 
+                "tags": [
+                    "playlist"
+                ], 
+                "summary": "Delete account from the service"
+            }
+        }, 
+        "/song/": {
+            "get": {
+                "operationId": "get_songs", 
+                "responses": {
+                    "200": {
+                        "description": "Songs retrieved"
+                    }
+                }, 
+                "tags": [
+                    "song"
+                ], 
+                "summary": "Retrieves all songs uploaded"
+            }
+        }, 
+        "/song/search": {
+            "post": {
+                "operationId": "post_search_songs", 
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    }, 
+                    "200": {
+                        "description": "Songs Retrieved"
+                    }, 
+                    "403": {
+                        "description": "Forbidden accesss"
+                    }
+                }, 
+                "tags": [
+                    "song"
+                ], 
+                "summary": "Retrieves songs by search criteria"
+            }
+        }, 
+        "/song/upload": {
+            "post": {
+                "operationId": "post_song", 
+                "responses": {
+                    "200": {
+                        "description": "Song Uploaded"
+                    }
+                }, 
+                "tags": [
+                    "song"
+                ], 
+                "summary": "Enables users to upload songs to the platform"
+            }
+        }, 
+        "/song/{id}": {
+            "put": {
+                "operationId": "put_manage_songs", 
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    }, 
+                    "200": {
+                        "description": "Updated playlist"
+                    }, 
+                    "403": {
+                        "description": "Forbidden accesss"
+                    }
+                }, 
+                "tags": [
+                    "song"
+                ], 
+                "summary": "Updates song info by ID"
+            }, 
+            "parameters": [
+                {
+                    "required": true, 
+                    "type": "integer", 
+                    "name": "id", 
+                    "in": "path"
+                }
+            ], 
+            "delete": {
+                "operationId": "delete_manage_songs", 
+                "responses": {
+                    "400": {
+                        "description": "Bad Request"
+                    }, 
+                    "200": {
+                        "description": "Deleted song "
+                    }, 
+                    "403": {
+                        "description": "Forbidden accesss"
+                    }
+                }, 
+                "tags": [
+                    "song"
+                ], 
+                "summary": "Delete uploaded songs"
+            }
+        }
+    }, 
+    "responses": {
+        "MaskError": {
+            "description": "When any error occurs on mask"
+        }, 
+        "NoResultFound": {}, 
+        "ParseError": {
+            "description": "When a mask can't be parsed"
+        }
+    }, 
+    "produces": [
+        "application/json"
+    ], 
+    "basePath": "/api", 
+    "tags": [
+        {
+            "name": "default", 
+            "description": "Default namespace"
+        }, 
+        {
+            "name": "authentication", 
+            "description": "Operations related to authentication"
+        }, 
+        {
+            "name": "account", 
+            "description": "Operations related to account"
+        }, 
+        {
+            "name": "playlist", 
+            "description": "Operations related to playlist"
+        }, 
+        {
+            "name": "song", 
+            "description": "Operations related to songs"
+        }
+    ], 
+    "host": "localhost:8000", 
+    "swagger": "2.0", 
+    "consumes": [
+        "application/json"
+    ]
+}
