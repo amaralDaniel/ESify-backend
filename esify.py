@@ -1,4 +1,5 @@
 from flask import Flask, Blueprint
+from flask import render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask import session
 import settings
@@ -12,6 +13,10 @@ from models import db
 
 app = Flask(__name__)
 
+
+@app.route('/')
+def index():
+    return render_template('index.html')
 
 
 def configure_app(flask_app):
